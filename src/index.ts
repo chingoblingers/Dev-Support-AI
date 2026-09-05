@@ -1,6 +1,9 @@
+import dotenv from 'dotenv'
 import {generateText, Output} from 'ai'
 import {openai} from '@ai-sdk/openai'
 import {z} from 'zod'
+
+dotenv.config()
 
 const schema = z.object({
     "route": z.enum(['web', 'direct', 'knowledge_base' ]).describe(`

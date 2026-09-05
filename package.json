@@ -21,6 +21,7 @@
   "dependencies": {
     "@ai-sdk/openai": "^4.0.59",
     "ai": "^7.0.93",
+    "dotenv": "^17.4.2",
     "zod": "^4.5.4"
   },
   "devDependencies": {
