@@ -18,12 +18,19 @@ const schema = z.object({
 type RoutingSchema = z.infer<typeof schema>
 
 async function routeUserQuestion(question: string):Promise<RoutingSchema>{
-const {output} = await generateText({
+    try{
+    const {output} = await generateText({
     model: openai('gpt-5.6-luna'),
     output: Output.object({schema}),
     prompt: `Categorize the users question into the most fitting route. Users Question:${question}`
-})
-return output
+    })
+    return output
+
+    }catch(error){
+    console.error(error)
+    throw error    
+    }
+
 }
 
 async function getAnswerWithoutContext(question:string){
@@ -36,6 +43,7 @@ try{
 
 }catch(error){
     console.error(error)
+    throw error
 }
 }
 
@@ -46,8 +54,7 @@ async function getUserAnswer(question:string){
     switch (chosenUserRoute.route){
         case 'direct':
             const answer = await getAnswerWithoutContext(question)
-            console.log(answer)
-            break
+            return answer            
         case 'knowledge_base':
             console.log('searching knowledge Base')
             break
@@ -58,6 +65,10 @@ async function getUserAnswer(question:string){
 
     }catch(error){
         console.error(error)
+        throw error
     }
 
 }
+
+const aiAnswer = await getUserAnswer("what is two plus two")
+console.log(aiAnswer)
