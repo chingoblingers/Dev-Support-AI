@@ -1,0 +1,34 @@
+{
+  "name": "dev-support-ai",
+  "version": "1.0.0",
+  "description": "In this project i create an AI developer support assistant that routes technical questions between direct model reasoning, web search, RAG, diagnostics, and custom tools.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chingoblingers/Dev-Support-AI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/chingoblingers/Dev-Support-AI/issues"
+  },
+  "homepage": "https://github.com/chingoblingers/Dev-Support-AI#readme",
+  "dependencies": {
+    "@ai-sdk/openai": "^4.0.59",
+    "ai": "^7.0.93",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.1",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}
