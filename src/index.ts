@@ -26,5 +26,38 @@ const {output} = await generateText({
 return output
 }
 
-const result = await routeUserQuestion('what is our policy on running in the halls')
-console.log(result)
+async function getAnswerWithoutContext(question:string){
+try{
+    const {text} = await generateText({
+        model: openai('gpt-5.6-luna'),
+        prompt: `Answer the users question cleary. User Question: ${question}`
+    })
+    return text
+
+}catch(error){
+    console.error(error)
+}
+}
+
+
+async function getUserAnswer(question:string){
+    try{
+    const chosenUserRoute = await routeUserQuestion(question)    
+    switch (chosenUserRoute.route){
+        case 'direct':
+            const answer = await getAnswerWithoutContext(question)
+            console.log(answer)
+            break
+        case 'knowledge_base':
+            console.log('searching knowledge Base')
+            break
+        case 'web':
+            console.log('searching the web')
+            break
+}
+
+    }catch(error){
+        console.error(error)
+    }
+
+}
