@@ -16,6 +16,7 @@ const schema = z.object({
 })
 
 type RoutingSchema = z.infer<typeof schema>
+type AiResponse = {'answer': string, 'sources'?: string[]}
 
 async function routeUserQuestion(question: string):Promise<RoutingSchema>{
     try{
@@ -33,7 +34,7 @@ async function routeUserQuestion(question: string):Promise<RoutingSchema>{
 
 }
 
-async function getAnswerWithoutContext(question:string){
+async function getAnswerWithoutContext(question:string):Promise<string>{
 try{
     const {text} = await generateText({
         model: openai('gpt-5.6-luna'),
@@ -48,19 +49,17 @@ try{
 }
 
 
-async function getUserAnswer(question:string){
+async function getUserAnswer(question:string):Promise<AiResponse>{
     try{
     const chosenUserRoute = await routeUserQuestion(question)    
     switch (chosenUserRoute.route){
         case 'direct':
             const answer = await getAnswerWithoutContext(question)
-            return answer            
+            return {answer}            
         case 'knowledge_base':
-            console.log('searching knowledge Base')
-            break
+            return { answer: "knowledge route placeholder" }
         case 'web':
-            console.log('searching the web')
-            break
+            return { answer: "web route placeholder" }
 }
 
     }catch(error){
