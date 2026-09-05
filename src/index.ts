@@ -13,3 +13,12 @@ const schema = z.object({
 })
 
 type RoutingSchema = z.infer<typeof schema>
+
+async function routeUserQuestion(question: string):Promise<RoutingSchema>{
+const {output} = await generateText({
+    model: openai('gpt-5.6-luna'),
+    output: Output.object({schema}),
+    prompt: `Categorize the users question into the most fitting route. Users Question:${question}`
+})
+return output
+}
