@@ -19,18 +19,5 @@ stored_vectors = model.encode(knowledge_chunks, convert_to_tensor=True)
 
 @app.post('/search')
 def question_Similarities(question: QuestionValidator):
-    return None
-
-""" 
-def embed_question(question:str)-> list[float]:
-    embeddings = model.encode(question)
-    return embeddings.tolist()
-
-
-stored_chunks = [{'content': chunk , 'embedding': embed_question(chunk)} for chunk in knowledge_chunks]
-
-def compareEmbeddings(embeddings: list[float]):
-    highest_score = -1.0
-    best_content = ''
-    list_similarities = util.cos_sim(embeddings, stored_chunks)
-"""
+    question_embedding = model.encode(question.question, convert_to_tensor=True)
+    two_best_matches = util.semantic_search(question_embedding, stored_vectors, top_k=2)
