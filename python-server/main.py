@@ -7,7 +7,10 @@ app = FastAPI()
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
 class QuestionValidator(BaseModel):
-    question: str  
+    question: str
+
+class SearchResponse(BaseModel):
+    results: list[str]
 
 knowledge_chunks = [
     "Openai with Vercel AI Sdk is the default AI model and documentation used in Kenton's Projects",
@@ -17,11 +20,11 @@ knowledge_chunks = [
 
 stored_vectors = model.encode(knowledge_chunks, convert_to_tensor=True)
 
-@app.post('/search')
+@app.post('/search', response_model=SearchResponse)
 def question_similarities(question: QuestionValidator):
     question_embedding = model.encode(question.question, convert_to_tensor=True)
     two_best_matches = util.semantic_search(question_embedding, stored_vectors, top_k=2)
-    ranked_strings = []
+    ranked_strings:list[str] = []
     for match in two_best_matches[0]:
         match_index = match['corpus_id']
         ranked_strings.append(knowledge_chunks[match_index])
