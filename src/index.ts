@@ -59,7 +59,8 @@ async function getUserAnswer(question:string):Promise<AiResponse>{
             const answer = await getAnswerWithoutContext(question)
             return {answer}            
         case 'knowledge_base':
-            return { answer: "knowledge route placeholder" }
+            const knowledgeAnswer = await getKnowledgeBaseAnswer(question)
+            return knowledgeAnswer
         case 'web':
             const webAnswer = await getWebAnswer(question)
             return webAnswer
@@ -93,6 +94,30 @@ async function getWebAnswer(question:string):Promise<AiResponse>{
         console.error(error)
         throw error
     }
+}
+
+type PythonServerResponse = {results:string[]}
+
+async function getKnowledgeBaseAnswer(question:string):Promise<AiResponse>{
+    try{
+    const response = await fetch('pythonServer/search', {'method': 'POST', 'headers': {'Content-Type':'application/json'}, "body": JSON.stringify({question})})
+    const data: PythonServerResponse = await response.json()
+    let context = ""
+    for (let result of data.results){
+        context += result + " "
+    }
+    const {text} = await generateText({
+        model: openai('gpt-5.6-luna'),
+        prompt: `Answer the users question. Use the provided context to construct your answer if it exisits. Question:${question}. Context:${context}`
+    })
+
+    return {answer:text}
+
+    }catch(error){
+        console.error(error)
+        throw error
+    }
+
 }
 
 const aiAnswer = await getUserAnswer("Was server.tool() depreciated in a recent update to the @modelContextProtocol sdk?")
