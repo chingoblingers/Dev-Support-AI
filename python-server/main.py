@@ -25,9 +25,12 @@ def question_similarities(question: QuestionValidator):
     question_embedding = model.encode(question.question, convert_to_tensor=True)
     two_best_matches = util.semantic_search(question_embedding, stored_vectors, top_k=2)
     ranked_strings:list[str] = []
+    match_threshold = 0.5
     for match in two_best_matches[0]:
-        match_index = match['corpus_id']
-        ranked_strings.append(knowledge_chunks[match_index])
+        if match['score'] >= match_threshold:
+            match_index = match['corpus_id']
+            ranked_strings.append(knowledge_chunks[match_index])
+        
     return {'results': ranked_strings}
     
 
