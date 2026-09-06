@@ -2,7 +2,6 @@ import dotenv from 'dotenv'
 import {generateText, Output} from 'ai'
 import {openai} from '@ai-sdk/openai'
 import {z} from 'zod'
-import { webSearch, webSearchPreview } from '@ai-sdk/openai/internal'
 
 dotenv.config()
 
@@ -100,7 +99,7 @@ type PythonServerResponse = {results:string[]}
 
 async function getKnowledgeBaseAnswer(question:string):Promise<AiResponse>{
     try{
-    const response = await fetch('pythonServer/search', {'method': 'POST', 'headers': {'Content-Type':'application/json'}, "body": JSON.stringify({question})})
+    const response = await fetch('http://127.0.0.1:8000/search', {'method': 'POST', 'headers': {'Content-Type':'application/json'}, "body": JSON.stringify({question})})
     const data: PythonServerResponse = await response.json()
     let context = ""
     for (let result of data.results){
