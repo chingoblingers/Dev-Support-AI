@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import {generateText, Output} from 'ai'
 import {openai} from '@ai-sdk/openai'
 import {z} from 'zod'
+import { webSearch, webSearchPreview } from '@ai-sdk/openai/internal'
 
 dotenv.config()
 
@@ -51,7 +52,8 @@ try{
 
 async function getUserAnswer(question:string):Promise<AiResponse>{
     try{
-    const chosenUserRoute = await routeUserQuestion(question)    
+    const chosenUserRoute = await routeUserQuestion(question)
+    console.log(chosenUserRoute)    
     switch (chosenUserRoute.route){
         case 'direct':
             const answer = await getAnswerWithoutContext(question)
@@ -59,7 +61,8 @@ async function getUserAnswer(question:string):Promise<AiResponse>{
         case 'knowledge_base':
             return { answer: "knowledge route placeholder" }
         case 'web':
-            return { answer: "web route placeholder" }
+            const webAnswer = await getWebAnswer(question)
+            return webAnswer
 }
 
     }catch(error){
@@ -69,5 +72,28 @@ async function getUserAnswer(question:string):Promise<AiResponse>{
 
 }
 
-const aiAnswer = await getUserAnswer("what is two plus two")
+async function getWebAnswer(question:string):Promise<AiResponse>{
+    try{
+        const {text, sources} = await generateText({
+            model: openai.responses('gpt-5.6-luna'),
+            tools: {webSearchPreview: openai.tools.webSearchPreview({})},
+            prompt: `Answer the users question. Use the available web search tool when needed
+            User Question:${question}. 
+            `
+        })
+    const sourceStrings = sources.filter(source => source.sourceType === "url").map(source => source.url)
+
+    if (sourceStrings.length === 0) {
+    return { answer: text }
+    }
+
+    return {answer: text, sources: sourceStrings}
+
+    }catch(error){
+        console.error(error)
+        throw error
+    }
+}
+
+const aiAnswer = await getUserAnswer("Was server.tool() depreciated in a recent update to the @modelContextProtocol sdk?")
 console.log(aiAnswer)
