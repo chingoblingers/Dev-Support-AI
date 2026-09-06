@@ -101,13 +101,12 @@ async function getKnowledgeBaseAnswer(question:string):Promise<AiResponse>{
     try{
     const response = await fetch('http://127.0.0.1:8000/search', {'method': 'POST', 'headers': {'Content-Type':'application/json'}, "body": JSON.stringify({question})})
     const data: PythonServerResponse = await response.json()
-    let context = ""
-    for (let result of data.results){
-        context += result + " "
-    }
+    const context = data.results.join("\n\n")
     const {text} = await generateText({
         model: openai('gpt-5.6-luna'),
-        prompt: `Answer the users question. Use the provided context to construct your answer if it exisits. Question:${question}. Context:${context}`
+        prompt: `Answer the user's question using only the provided context.
+        If the context does not contain enough information to answer confidently, say that the knowledge base does not contain enough information.
+        Question: ${question}   Context:${context}`
     })
 
     return {answer:text}
@@ -119,5 +118,5 @@ async function getKnowledgeBaseAnswer(question:string):Promise<AiResponse>{
 
 }
 
-const aiAnswer = await getUserAnswer("Was server.tool() depreciated in a recent update to the @modelContextProtocol sdk?")
+const aiAnswer = await getUserAnswer("What kinds of ai's does your company like to use?")
 console.log(aiAnswer)
