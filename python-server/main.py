@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer, util
+
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 
+"""
 app = FastAPI()
-model = SentenceTransformer("all-MiniLM-L6-v2") 
 
 class QuestionValidator(BaseModel):
     question: str  
@@ -15,8 +17,8 @@ def questionSimilarities(question: QuestionValidator):
     
 
 def embed_question(question:str)-> list[float]:
-    embedding = model.encode(question)
-    return embedding.tolist()
+    embeddings = model.encode(question)
+    return embeddings.tolist()
 
 knowledge_chunks = [
     "Openai with Vercel AI Sdk is the default AI model and documentation used in Kenton's Projects",
@@ -25,3 +27,9 @@ knowledge_chunks = [
                     ]
 
 stored_chunks = [{'content': chunk , 'embedding': embed_question(chunk)} for chunk in knowledge_chunks]
+
+def compareEmbeddings(embeddings: list[float]):
+    highest_score = -1.0
+    best_content = ''
+    list_similarities = util.cos_sim(embeddings, stored_chunks)
+"""    
