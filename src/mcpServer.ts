@@ -1,8 +1,12 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import {z} from "zod"
+import { McpServer } from "@modelcontextprotocol/server"
+import { serveStdio } from "@modelcontextprotocol/server/stdio"
+import * as z from "zod/v4"
 
-const server = new McpServer({name: 'dev support tools' , version:"1.0"})
+serveStdio(() => {
+    const server = new McpServer({
+        name: "dev support tools",
+        version: "1.0"
+    })
 
 server.registerTool(
     'checkRuntimeCompatibility',
@@ -26,10 +30,5 @@ server.registerTool(
         return {"content":[{'type': 'text', 'text': `Package ${packageName}@${packageVersion} declares Node requirement: ${data.engines.node}. Requested runtime: ${runtimeVersion}`}]}
     }
 )
-
-async function connectServer(){
-const transport = new StdioServerTransport()
-await server.connect(transport)
-}
-
-connectServer()
+return server
+})
