@@ -6,11 +6,12 @@ import {z} from 'zod'
 dotenv.config()
 
 const schema = z.object({
-    "route": z.enum(['web', 'direct', 'knowledge_base', 'diagnostics']).describe(`
+    "route": z.enum(['web', 'direct', 'knowledge_base', 'diagnostics', 'tool']).describe(`
     Use 'web' when you need to search the internet for your answer.
     Use 'direct' when you can answer the user with your current knowledge.
     Use 'knowledge_base' when you need information on the creator of this project, their business, buissness rules, or anything with a focus on the creator.
-    Use 'diagnostics' when the user is having issues with executing their code (run time errors, connection failures, startup issues for example).  
+    Use 'diagnostics' when the user is having issues with executing their code (run time errors, connection failures, startup issues for example).
+    Use 'tool' when the user is asking for a supported structured developer utility, such as checking runtime, package, or version compatibility.    
         `),
     "reason": z.string().describe('Provide a brief reason on why the selected route was chosen over the others')
 
@@ -136,5 +137,5 @@ async function runDiagnostics(question:string):Promise<AiResponse>{
     }
 }
 
-const aiAnswer = await getUserAnswer("What kinds of ai's does your company like to use?")
+const aiAnswer = await getUserAnswer("My frontend gets ECONNREFUSED when it tries to call FastAPI.")
 console.log(aiAnswer)
