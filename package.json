@@ -20,6 +20,7 @@
   "homepage": "https://github.com/chingoblingers/Dev-Support-AI#readme",
   "dependencies": {
     "@ai-sdk/openai": "^4.0.59",
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "ai": "^7.0.93",
     "dotenv": "^17.4.2",
     "zod": "^4.5.4"
