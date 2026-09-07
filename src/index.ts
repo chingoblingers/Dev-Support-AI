@@ -6,10 +6,11 @@ import {z} from 'zod'
 dotenv.config()
 
 const schema = z.object({
-    "route": z.enum(['web', 'direct', 'knowledge_base' ]).describe(`
+    "route": z.enum(['web', 'direct', 'knowledge_base', 'diagnostics']).describe(`
     Use 'web' when you need to search the internet for your answer.
     Use 'direct' when you can answer the user with your current knowledge.
-    Use 'knowledge_base' when you need to look through the database.
+    Use 'knowledge_base' when you need information on the creator of this project, their business, buissness rules, or anything with a focus on the creator.
+    Use 'diagnostics' when the user is having issues with executing their code (run time errors, connection failures, startup issues for example).  
         `),
     "reason": z.string().describe('Provide a brief reason on why the selected route was chosen over the others')
 
@@ -63,6 +64,9 @@ async function getUserAnswer(question:string):Promise<AiResponse>{
         case 'web':
             const webAnswer = await getWebAnswer(question)
             return webAnswer
+        case 'diagnostics':
+            const diagnosticAnswer = await runDiagnostics(question)
+            return diagnosticAnswer
 }
 
     }catch(error){
@@ -116,6 +120,20 @@ async function getKnowledgeBaseAnswer(question:string):Promise<AiResponse>{
         throw error
     }
 
+}
+
+type DiagnosticResponse = {diagnostic: string}
+
+async function runDiagnostics(question:string):Promise<AiResponse>{
+    try{
+        const response = await fetch('http://127.0.0.1:8000/diagnostics', {'method': 'POST', 'headers': {'Content-Type': 'application/json'}, 'body': JSON.stringify({question})})
+        const data:DiagnosticResponse = await response.json()
+        const diagnosticData = data.diagnostic
+        return {'answer': diagnosticData}
+    }catch(error){
+        console.error(error)
+        throw error
+    }
 }
 
 const aiAnswer = await getUserAnswer("What kinds of ai's does your company like to use?")
