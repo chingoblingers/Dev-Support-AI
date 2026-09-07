@@ -26,3 +26,10 @@ server.registerTool(
         return {"content":[{'type': 'text', 'text': `Package ${packageName}@${packageVersion} declares Node requirement: ${data.engines.node}. Requested runtime: ${runtimeVersion}`}]}
     }
 )
+
+async function connectServer(){
+const transport = new StdioServerTransport()
+await server.connect(transport)
+}
+
+connectServer()
