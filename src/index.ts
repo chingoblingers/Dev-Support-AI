@@ -2,8 +2,21 @@ import dotenv from 'dotenv'
 import {generateText, Output} from 'ai'
 import {openai} from '@ai-sdk/openai'
 import {z} from 'zod'
+import { Client } from "@modelcontextprotocol/client"
+import { StdioClientTransport } from "@modelcontextprotocol/client/stdio"
 
 dotenv.config()
+const mcpClient = new Client({
+    name: "dev-support-ai-client",
+    version: "1.0.0"
+})
+
+const transport = new StdioClientTransport({
+    command: "npx",
+    args: ["tsx", "src/mcpServer.ts"]
+})
+
+await mcpClient.connect(transport)
 
 const schema = z.object({
     "route": z.enum(['web', 'direct', 'knowledge_base', 'diagnostics', 'tool']).describe(`
