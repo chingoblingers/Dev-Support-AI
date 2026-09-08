@@ -7,7 +7,7 @@ const app = express()
 
 app.use(express.json())
 
-app.post('/' , async (req, res) => {
+app.post('/api/chat' , async (req, res) => {
     const question = req.body.question
     if (!question){
         return res.status(400).json({'message': "Please submit question in correct format"})
