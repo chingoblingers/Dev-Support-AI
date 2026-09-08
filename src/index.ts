@@ -39,6 +39,37 @@ const schema = z.object({
 
 type RoutingSchema = z.infer<typeof schema>
 type AiResponse = {'answer': string, 'sources'?: string[]}
+type DiagnosticResponse = {diagnostic: string}
+
+async function runMcpTool(question: string):Promise<AiResponse>{
+try{
+    const {output} = await generateText({
+        model: openai("gpt-5.6-luna"),
+        output: Output.object({schema: mcpSchema}),
+        prompt: `Use the best tool for answering the users question ${question}`
+    })
+
+    const toolResult = await mcpClient.callTool({
+        name: output.toolName,
+        arguments: {
+        packageName: output.packageName,
+        packageVersion: output.packageVersion,
+        runtimeVersion: output.runtimeVersion
+  }
+})
+const firstContent = toolResult.content[0]
+
+if (firstContent?.type === "text") {
+  return { answer: firstContent.text }
+}
+throw new Error("MCP tool did not return text content")
+}catch(error){
+console.error(error)
+throw error
+
+}
+
+}
 
 async function routeUserQuestion(question: string):Promise<RoutingSchema>{
     try{
@@ -88,6 +119,8 @@ async function getUserAnswer(question:string):Promise<AiResponse>{
         case 'diagnostics':
             const diagnosticAnswer = await runDiagnostics(question)
             return diagnosticAnswer
+        case 'tool':
+            return await runMcpTool(question)
 }
 
     }catch(error){
@@ -143,8 +176,6 @@ async function getKnowledgeBaseAnswer(question:string):Promise<AiResponse>{
 
 }
 
-type DiagnosticResponse = {diagnostic: string}
-
 async function runDiagnostics(question:string):Promise<AiResponse>{
     try{
         const response = await fetch('http://127.0.0.1:8000/diagnostics', {'method': 'POST', 'headers': {'Content-Type': 'application/json'}, 'body': JSON.stringify({question})})
@@ -157,5 +188,7 @@ async function runDiagnostics(question:string):Promise<AiResponse>{
     }
 }
 
-const aiAnswer = await getUserAnswer("My frontend gets ECONNREFUSED when it tries to call FastAPI.")
+
+
+const aiAnswer = await getUserAnswer("Can you check the runtime compatibility of express 5.1.0, if I'm using Node 20?")
 console.log(aiAnswer)
