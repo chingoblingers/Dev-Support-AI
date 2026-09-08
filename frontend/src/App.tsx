@@ -11,8 +11,13 @@ const [error, setError] = useState<string>("")
 function handleSubmit(e:React.SubmitEvent<HTMLFormElement>){
   e.preventDefault()
   setError('')
+  const trimmedInput = userInput.trim()
+  if (!trimmedInput){
+    return 
+  }
   setChatHistory(prevHistory => [...prevHistory,{'role': 'user', 'message': trimmedInput} ])
   setLoading(true)
+  setUserInput('')
 }
 
 function App() {
