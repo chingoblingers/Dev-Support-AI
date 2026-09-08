@@ -8,6 +8,13 @@ const [loading, setLoading] = useState<boolean>(false)
 const [chatHistory, setChatHistory] = useState<ChatMessage[]>([])
 const [error, setError] = useState<string>("")
 
+function handleSubmit(e:React.SubmitEvent<HTMLFormElement>){
+  e.preventDefault()
+  setError('')
+  setChatHistory(prevHistory => [...prevHistory,{'role': 'user', 'message': trimmedInput} ])
+  setLoading(true)
+}
+
 function App() {
 
   return ('Hello')
