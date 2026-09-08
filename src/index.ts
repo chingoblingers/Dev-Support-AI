@@ -18,6 +18,13 @@ const transport = new StdioClientTransport({
 
 await mcpClient.connect(transport)
 
+const mcpSchema = z.object({
+    "toolName": z.literal("checkRuntimeCompatibility"),
+    "packageName": z.string().describe('name of the package the results are needed for.'),
+    "packageVersion": z.string().describe('version of the package.'),
+    "runtimeVersion": z.string().describe('runtime version being used for comparison')
+})
+
 const schema = z.object({
     "route": z.enum(['web', 'direct', 'knowledge_base', 'diagnostics', 'tool']).describe(`
     Use 'web' when you need to search the internet for your answer.
