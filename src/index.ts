@@ -102,7 +102,7 @@ try{
 }
 
 
-async function getUserAnswer(question:string):Promise<AiResponse>{
+export async function getUserAnswer(question:string):Promise<AiResponse>{
     try{
     const chosenUserRoute = await routeUserQuestion(question)
     console.log(chosenUserRoute)    

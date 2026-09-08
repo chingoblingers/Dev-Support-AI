@@ -1,5 +1,5 @@
 import express from 'express'
-import {getUserAnswer} from 'src/index.ts'
+import { getUserAnswer } from './index.js'
 
 const PORT = 3000
 const app = express()
