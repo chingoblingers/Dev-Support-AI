@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type JSX, type JSXElementConstructor } from 'react'
 import './App.css'
 
 type ChatMessage = {"role": 'user' | 'assistant', 'message': string, 'sources'?: string[]}
@@ -37,6 +37,17 @@ async function handleSubmit(e:React.SubmitEvent<HTMLFormElement>){
   }
 
 }
+
+const messageDisplay = chatHistory.map((message, index) => {
+  if (message.role ==='user'){
+    return <p className='user' key={index}>{message.message}</p>
+  }
+  if(message.sources){
+  const sourceList  =  message.sources.map((source,index) => <a key={index} className='source' href={source}>{source}</a>)
+  return <div className='sourcedMsg' key={index}> <p className='assistant'>{message.message}</p> {sourceList} </div>
+  }
+  return <p className='assistant' key={index}>{message.message}</p>
+})
 
 function App() {
 
