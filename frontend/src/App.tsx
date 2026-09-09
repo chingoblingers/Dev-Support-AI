@@ -3,6 +3,8 @@ import './App.css'
 
 type ChatMessage = {"role": 'user' | 'assistant', 'message': string, 'sources'?: string[]}
 
+function App() {
+
 const [userInput, setUserInput] = useState<string>('')
 const [loading, setLoading] = useState<boolean>(false)
 const [chatHistory, setChatHistory] = useState<ChatMessage[]>([])
@@ -49,9 +51,19 @@ const messageDisplay = chatHistory.map((message, index) => {
   return <p className='assistant' key={index}>{message.message}</p>
 })
 
-function App() {
-
-  return ('Hello')
+  return (
+    <main>
+    <header> Ken's Dev Support AI </header>
+    <section className='messageArea'>
+    {messageDisplay}  
+    </section>
+    <form onSubmit={handleSubmit} className='questionForm'>
+    <label htmlFor='userInput'>Ask me for support!</label>  
+    <input type='text' id='userInput' placeholder='how do i install windows 11?' name='userInput' value={userInput} onChange={(e)=> setUserInput(e.target.value)}/>
+    <button>Submit</button>
+    </form>
+    </main>
+  )
 }
 
 export default App
