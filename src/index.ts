@@ -6,10 +6,19 @@ import { Client } from "@modelcontextprotocol/client"
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio"
 
 dotenv.config()
-const mcpClient = new Client({
+
+
+let mcpConnected = false
+let mcpClient = new Client({
     name: "dev-support-ai-client",
     version: "1.0.0"
 })
+
+async function connectMcpClient(){
+try{
+if (mcpConnected){
+return
+}
 
 const transport = new StdioClientTransport({
     command: "npx",
@@ -17,6 +26,16 @@ const transport = new StdioClientTransport({
 })
 
 await mcpClient.connect(transport)
+mcpConnected = true
+
+
+}catch(error){
+
+ console.error(error)
+ throw error   
+}
+
+}
 
 const mcpSchema = z.object({
     "toolName": z.literal("checkRuntimeCompatibility"),
@@ -42,6 +61,7 @@ type AiResponse = {'answer': string, 'sources'?: string[]}
 type DiagnosticResponse = {diagnostic: string}
 
 async function runMcpTool(question: string):Promise<AiResponse>{
+await connectMcpClient()    
 try{
     const {output} = await generateText({
         model: openai("gpt-5.6-luna"),
