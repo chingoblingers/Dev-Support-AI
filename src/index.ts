@@ -187,8 +187,3 @@ async function runDiagnostics(question:string):Promise<AiResponse>{
         throw error
     }
 }
-
-
-
-const aiAnswer = await getUserAnswer("Can you check the runtime compatibility of express 5.1.0, if I'm using Node 20?")
-console.log(aiAnswer)
