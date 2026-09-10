@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html{
     font-size: 62.5%;
 }
@@ -25,4 +29,17 @@ html{
 
 header div {
     text-align: center;
+}
+.questionForm{
+    display: flex;
+    gap: 0.5rem;
+}
+
+input{
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+input, button{
+    margin-top: 1em;
 }

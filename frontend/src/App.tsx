@@ -65,8 +65,8 @@ const messageDisplay = chatHistory.map((message, index) => {
       <section>
           <div className='contentContainer'>
             <form onSubmit={handleSubmit} className='questionForm'>
-              <label htmlFor='userInput'>Ask me for support!</label>  
-              <input type='text' id='userInput' placeholder='how do i install windows 11?' name='userInput' value={userInput} onChange={(e)=> setUserInput(e.target.value)}/>
+              <input type='text' id='userInput' placeholder='how do i install windows 11?' 
+              name='userInput' value={userInput} onChange={(e)=> setUserInput(e.target.value)} aria-label='Enter your questions here'/>
               <button disabled={loading}>{loading ? "Thinking..." : "Submit"}</button>
             </form>
           </div>
