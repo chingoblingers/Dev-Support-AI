@@ -15,7 +15,7 @@ app.post('/api/chat' , async (req, res) => {
     }
 
     const answer = await getUserAnswer(question)
-    res.status(200).json({answer})
+    res.status(200).json(answer)
     
 })
 
