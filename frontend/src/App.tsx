@@ -42,13 +42,20 @@ async function handleSubmit(e:React.SubmitEvent<HTMLFormElement>){
 
 const messageDisplay = chatHistory.map((message, index) => {
   if (message.role ==='user'){
-    return <p className='user' key={index}>{message.message}</p>
+    return  <div className='user' key={index}>
+              <p>{message.message}</p>
+            </div>
   }
   if(message.sources){
   const sourceList  =  message.sources.map((source,index) => <a key={index} className='source' href={source}>{source}</a>)
-  return <div className='sourcedMsg' key={index}> <p className='assistant'>{message.message}</p> {sourceList} </div>
+  return  <div className='assistant sourcedMsg' key={index}> 
+            <p>{message.message}</p> 
+            {sourceList} 
+          </div>
   }
-  return <p className='assistant' key={index}>{message.message}</p>
+  return  <div className='assistant' key={index}>
+            <p>{message.message}</p>
+          </div>
 })
 
   return (
