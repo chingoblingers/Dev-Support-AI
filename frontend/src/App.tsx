@@ -52,17 +52,24 @@ const messageDisplay = chatHistory.map((message, index) => {
 })
 
   return (
-    <main>
-    <header> Ken's Dev Support AI </header>
-    <section className='messageArea'>
-    {messageDisplay}  
-    </section>
-    {error && <p className="error">{error}</p>}
-    <form onSubmit={handleSubmit} className='questionForm'>
-    <label htmlFor='userInput'>Ask me for support!</label>  
-    <input type='text' id='userInput' placeholder='how do i install windows 11?' name='userInput' value={userInput} onChange={(e)=> setUserInput(e.target.value)}/>
-   <button disabled={loading}>{loading ? "Thinking..." : "Submit"}</button>
-    </form>
+    <main className='app'>
+      <header> 
+          <div className='contentContainer'>
+            <h1>Ken's Dev Support AI </h1> 
+          </div>  
+      </header>
+      <section className='messageArea'>
+        <div className='contentContainer'> {messageDisplay} {error && <p className="error">{error}</p>}</div>
+      </section>
+      <section>
+          <div className='contentContainer'>
+            <form onSubmit={handleSubmit} className='questionForm'>
+              <label htmlFor='userInput'>Ask me for support!</label>  
+              <input type='text' id='userInput' placeholder='how do i install windows 11?' name='userInput' value={userInput} onChange={(e)=> setUserInput(e.target.value)}/>
+              <button disabled={loading}>{loading ? "Thinking..." : "Submit"}</button>
+            </form>
+          </div>
+      </section>
     </main>
   )
 }

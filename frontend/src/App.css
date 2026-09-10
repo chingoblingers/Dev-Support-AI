@@ -1,0 +1,24 @@
+html{
+    font-size: 62.5%;
+}
+
+.app{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.messageArea{
+    overflow-y: auto;
+    border: 1px solid black;
+    flex-grow: 1;
+    min-height: 0;
+}
+
+.contentContainer{
+    width: 100%;
+    max-width: 900px;
+    font-size: 2.0rem;
+    padding: 0 1em;
+    margin: 0 auto;
+}
