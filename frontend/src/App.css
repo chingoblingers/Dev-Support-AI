@@ -43,3 +43,17 @@ input{
 input, button{
     margin-top: 1em;
 }
+
+.messageContainer{
+display: flex;
+flex-direction: column;
+padding: 0.3em;
+}
+
+.user{
+    border: 0.1rem solid black;
+    border-radius: 2rem;
+    padding: 0.5em;
+    align-self: flex-end;
+    max-width: 75%;
+}

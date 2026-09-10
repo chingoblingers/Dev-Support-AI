@@ -67,7 +67,7 @@ const messageDisplay = chatHistory.map((message, index) => {
           </div>  
       </header>
       <section className='messageArea'>
-        <div className='contentContainer'> {messageDisplay} {error && <p className="error">{error}</p>}</div>
+        <div className='contentContainer messageContainer'> {messageDisplay} {error && <p className="error">{error}</p>}</div>
       </section>
       <section>
           <div className='contentContainer'>
