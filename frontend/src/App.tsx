@@ -55,7 +55,8 @@ const messageDisplay = chatHistory.map((message, index) => {
     <main className='app'>
       <header> 
           <div className='contentContainer'>
-            <h1>Ken's Dev Support AI </h1> 
+            <h1>Kenton's Dev Support AI </h1> 
+            <p>Fast answers for your troubleshooting, debugging or dev needs!</p>
           </div>  
       </header>
       <section className='messageArea'>

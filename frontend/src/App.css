@@ -22,3 +22,7 @@ html{
     padding: 0 1em;
     margin: 0 auto;
 }
+
+header div {
+    text-align: center;
+}
