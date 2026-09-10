@@ -1,4 +1,4 @@
-import { useState, type JSX, type JSXElementConstructor } from 'react'
+import { useState } from 'react'
 import './App.css'
 
 type ChatMessage = {"role": 'user' | 'assistant', 'message': string, 'sources'?: string[]}
@@ -57,10 +57,11 @@ const messageDisplay = chatHistory.map((message, index) => {
     <section className='messageArea'>
     {messageDisplay}  
     </section>
+    {error && <p className="error">{error}</p>}
     <form onSubmit={handleSubmit} className='questionForm'>
     <label htmlFor='userInput'>Ask me for support!</label>  
     <input type='text' id='userInput' placeholder='how do i install windows 11?' name='userInput' value={userInput} onChange={(e)=> setUserInput(e.target.value)}/>
-    <button>Submit</button>
+   <button disabled={loading}>{loading ? "Thinking..." : "Submit"}</button>
     </form>
     </main>
   )
