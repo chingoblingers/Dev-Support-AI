@@ -48,12 +48,30 @@ input, button{
 display: flex;
 flex-direction: column;
 padding: 0.3em;
+gap: 1rem;
 }
 
 .user{
-    border: 0.1rem solid black;
-    border-radius: 2rem;
-    padding: 0.5em;
     align-self: flex-end;
     max-width: 75%;
+    background-color:antiquewhite;
+    border-radius: 3rem;
+}
+
+.assistant{
+    align-self: flex-start;
+    max-width: 90%;
+    background-color: aquamarine;
+    border-radius: 1.5rem;
+    
+}
+
+.user, .assistant{
+    border: 0.1rem solid black;
+    padding: 1em;
+}
+
+.user p,
+.assistant p {
+  margin: 0;
 }
