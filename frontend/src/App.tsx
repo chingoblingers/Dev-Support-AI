@@ -47,7 +47,10 @@ const messageDisplay = chatHistory.map((message, index) => {
             </div>
   }
   if(message.sources){
-  const sourceList  =  message.sources.map((source,index) => <a key={index} className='source' href={source}>{source}</a>)
+  const sourceList  =  message.sources.map((source,index) => {
+  const cutName = new URL(source).hostname.replace('www.', "")  
+  return <a key={index} className='source' href={source}>{cutName}</a>
+})
   return  <div className='assistant sourcedMsg' key={index}> 
             <p>{message.message}</p> 
             {sourceList} 
