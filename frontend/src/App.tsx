@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './App.css'
 
+const apiBaseUrl = import.meta.env.VITE_API_URL
+
 type ChatMessage = {"role": 'user' | 'assistant', 'message': string, 'sources'?: string[]}
 
 function App() {
@@ -21,7 +23,7 @@ async function handleSubmit(e:React.SubmitEvent<HTMLFormElement>){
   setChatHistory(prevHistory => [...prevHistory,{'role': 'user', 'message': trimmedInput} ])
   setLoading(true)
   setUserInput('')    
-  const response = await fetch('http://localhost:3000/api/chat', {'method': 'POST', 'headers': {'Content-Type': 'application/json'}, 'body': JSON.stringify({question: trimmedInput})})
+  const response = await fetch(`${apiBaseUrl}/api/chat`, {'method': 'POST', 'headers': {'Content-Type': 'application/json'}, 'body': JSON.stringify({question: trimmedInput})})
   if (!response.ok){
     throw new Error('Request failed')
   }
