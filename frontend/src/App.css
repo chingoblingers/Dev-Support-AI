@@ -4,6 +4,8 @@
 
 html{
     font-size: 62.5%;
+    background-color: #121212;
+    color: rgb(252, 253, 254);
 }
 
 .app{
@@ -14,7 +16,6 @@ html{
 
 .messageArea{
     overflow-y: auto;
-    border: 1px solid black;
     flex-grow: 1;
     min-height: 0;
 }
@@ -37,11 +38,21 @@ header div {
 
 input{
     flex-grow: 1;
-    padding: 1rem;
+    background-color: #2C2C2C;
+    color: rgb(252, 253, 254);
+}
+
+button{
+    background-color:royalblue;
+    color: rgb(252, 253, 254);
 }
 
 input, button{
     margin-top: 1em;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-size: 2rem;
 }
 
 .messageContainer{
@@ -54,14 +65,14 @@ gap: 1rem;
 .user{
     align-self: flex-end;
     max-width: 75%;
-    background-color:antiquewhite;
+    background-color:royalblue;
     border-radius: 3rem;
 }
 
 .assistant{
     align-self: flex-start;
     max-width: 90%;
-    background-color: aquamarine;
+    background-color: #2C2C2C;
     border-radius: 1.5rem;
     
 }
@@ -74,4 +85,18 @@ gap: 1rem;
 .user p,
 .assistant p {
   margin: 0;
+}
+
+a{
+    color: blanchedalmond;
+}
+a:hover, a:active{
+    color: darkorchid;
+}
+
+a:focus-visible,
+input:focus-visible,
+button:focus-visible {
+  outline: 0.2rem solid royalblue;
+  outline-offset: 0.2rem;
 }
