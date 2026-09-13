@@ -101,6 +101,12 @@ button:focus-visible {
   outline-offset: 0.2rem;
 }
 
+.sourcedMsg{
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+
 .sourceList {
   list-style-type: none;
   padding-left: 0;
@@ -108,4 +114,11 @@ button:focus-visible {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+}
+
+.source{
+    border-radius: 1rem;
+    padding: 0.5em;
+    background-color: #1A1A1A;
+    text-decoration: none;
 }

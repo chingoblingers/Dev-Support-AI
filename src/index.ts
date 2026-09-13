@@ -155,11 +155,17 @@ async function getWebAnswer(question:string):Promise<AiResponse>{
         const {text, sources} = await generateText({
             model: openai.responses('gpt-5.6-luna'),
             tools: {webSearchPreview: openai.tools.webSearchPreview({})},
-            prompt: `Answer the users question. Use the available web search tool when needed
+            prompt: `Answer the users question. Use the available web search tool when needed.
+            Return only a clean natural-language answer in the text response.
+            Do not include raw URLs, markdown links, a sources section, or inline citation links in the answer text.
+            The application renders sources separately.
             User Question:${question}. 
             `
         })
     const sourceStrings = sources.filter(source => source.sourceType === "url").map(source => source.url)
+
+    console.log("raw sources:", sources)
+    console.log("source strings:", sourceStrings)
 
     if (sourceStrings.length === 0) {
     return { answer: text }
