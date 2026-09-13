@@ -49,11 +49,11 @@ const messageDisplay = chatHistory.map((message, index) => {
   if(message.sources){
   const sourceList  =  message.sources.map((source,index) => {
   const cutName = new URL(source).hostname.replace('www.', "")  
-  return <a key={index} className='source' href={source}>{cutName}</a>
+  return  <li> <a key={index} className='source' href={source}>{cutName}</a> </li>
 })
   return  <div className='assistant sourcedMsg' key={index}> 
             <p>{message.message}</p> 
-            {sourceList} 
+            <ul className='sourceList'>{sourceList}</ul>
           </div>
   }
   return  <div className='assistant' key={index}>

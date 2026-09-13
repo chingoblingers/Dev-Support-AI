@@ -100,3 +100,12 @@ button:focus-visible {
   outline: 0.2rem solid royalblue;
   outline-offset: 0.2rem;
 }
+
+.sourceList {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
