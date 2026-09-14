@@ -8,6 +8,10 @@ html{
     color: rgb(252, 253, 254);
 }
 
+body{
+    margin: 0;
+}
+
 .app{
     display: flex;
     flex-direction: column;
@@ -18,6 +22,7 @@ html{
     overflow-y: auto;
     flex-grow: 1;
     min-height: 0;
+    padding: 1em;
 }
 
 .contentContainer{
@@ -34,6 +39,7 @@ header div {
 .questionForm{
     display: flex;
     gap: 0.5rem;
+    padding-bottom: 1.4em;
 }
 
 input{
@@ -71,7 +77,7 @@ gap: 1rem;
 
 .assistant{
     align-self: flex-start;
-    max-width: 90%;
+    max-width: 80%;
     background-color: #2C2C2C;
     border-radius: 1.5rem;
     
