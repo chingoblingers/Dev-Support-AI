@@ -6,6 +6,11 @@ import { Client } from "@modelcontextprotocol/client"
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio"
 
 dotenv.config()
+const pythonApiUrl = process.env.PYTHON_API_URL
+
+if (!pythonApiUrl) {
+    throw new Error('PYTHON_API_URL is not defined')
+}
 
 
 let mcpConnected = false
@@ -183,7 +188,7 @@ type PythonServerResponse = {results:string[]}
 
 async function getKnowledgeBaseAnswer(question:string):Promise<AiResponse>{
     try{
-    const response = await fetch('http://127.0.0.1:8000/search', {'method': 'POST', 'headers': {'Content-Type':'application/json'}, "body": JSON.stringify({question})})
+    const response = await fetch(`${pythonApiUrl}/search`, {'method': 'POST', 'headers': {'Content-Type':'application/json'}, "body": JSON.stringify({question})})
     const data: PythonServerResponse = await response.json()
     const context = data.results.join("\n\n")
     const {text} = await generateText({
@@ -204,7 +209,7 @@ async function getKnowledgeBaseAnswer(question:string):Promise<AiResponse>{
 
 async function runDiagnostics(question:string):Promise<AiResponse>{
     try{
-        const response = await fetch('http://127.0.0.1:8000/diagnostics', {'method': 'POST', 'headers': {'Content-Type': 'application/json'}, 'body': JSON.stringify({question})})
+        const response = await fetch(`${pythonApiUrl}/diagnostics`, {'method': 'POST', 'headers': {'Content-Type': 'application/json'}, 'body': JSON.stringify({question})})
         const data:DiagnosticResponse = await response.json()
         const diagnosticData = data.diagnostic
         return {'answer': diagnosticData}
