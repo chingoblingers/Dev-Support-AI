@@ -1,10 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from sentence_transformers import SentenceTransformer, util
 
 app = FastAPI()
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
 
 class QuestionValidator(BaseModel):
     question: str
@@ -21,20 +19,25 @@ knowledge_chunks = [
     "If there is a line between a piece of code. Hover over to view VScode's notes on the matter. A function or method could be depreciated and needs to be updated."
 ]
 
-stored_vectors = model.encode(knowledge_chunks, convert_to_tensor=True)
 
 @app.post('/search', response_model=SearchResponse)
 def question_similarities(question: QuestionValidator):
-    question_embedding = model.encode(question.question, convert_to_tensor=True)
-    two_best_matches = util.semantic_search(question_embedding, stored_vectors, top_k=2)
-    ranked_strings:list[str] = []
-    match_threshold = 0.5
-    for match in two_best_matches[0]:
-        if match['score'] >= match_threshold:
-            match_index = match['corpus_id']
-            ranked_strings.append(knowledge_chunks[match_index])
-        
-    return {'results': ranked_strings}
+    question_words = set(question.question.lower().split())
+
+    ranked_matches = []
+
+    for chunk in knowledge_chunks:
+        chunk_words = set(chunk.lower().split())
+        score = len(question_words.intersection(chunk_words))
+
+        if score > 0:
+            ranked_matches.append((score, chunk))
+
+    ranked_matches.sort(reverse=True)
+
+    results = [chunk for score, chunk in ranked_matches[:2]]
+
+    return {'results': results}
     
 
 @app.post('/diagnostics', response_model=DiagnosticResponse)
